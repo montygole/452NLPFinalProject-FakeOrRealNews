@@ -14,15 +14,21 @@ CLASSIFIER_MODEL = joblib.load("model.pkl")
 
 #Open and read the user's text file
 f = open("article.txt", "r")
-file_lines = f.readline()
-input_title = file_lines[0]
-input_text = file_lines[2:]
-input_date = file_lines[1]
-print(input_text)
+count = 0
+input_text = ""
+for line in f:
+    if(count==0):
+      input_title = line
+    elif(count==1):
+        input_date = line
+    else:
+        input_text += line
+    count+=1
+input_text = str(input_text)
 #Create a dataset from the input
-dataset = [[input_title, input_text]]
-dataset = pd.DataFrame(dataset, columns=['title', 'text'])
-
+dataset = [[input_title, input_text, input_date]]
+dataset = pd.DataFrame(dataset, columns=['title', 'text', 'date'])
+print(dataset)
 def extract_data(dataset):
 
     #Extracting amount of capitalized/lowercase words in the title
@@ -41,7 +47,6 @@ def extract_data(dataset):
     #Encode Subject Label & month
     print("Encoding data....")
     label_encoder = preprocessing.LabelEncoder()
-    dataset["subject"] = label_encoder.fit_transform(dataset['subject'])
     dataset["Month"] = label_encoder.fit_transform(dataset['Month'])
 
     #Extract feature counts from words
@@ -58,6 +63,10 @@ def extract_data(dataset):
     #Concat dataframes
     print("Concatenating dataframes....")
     dataset = pd.concat([dataset, counts], axis=1)
+
+    #Remove text & titles columns for classification
+    dataset = dataset.drop(["title","text"],axis=1)
+
      
     return dataset
 
