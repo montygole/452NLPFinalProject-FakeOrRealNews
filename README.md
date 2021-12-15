@@ -11,4 +11,4 @@ How to use:
     Line 2: Article Publish Date
     Line 3-END: Article's Text
 3. Run the file called: 'main.ipynb'. But remember to install program-specific dependencies you don't have.
-4. Look at the bottom of the 'main.ipynb' file to see your article's results!
+4. Look at the bottom of the 'main.ipynb' file to see your article's results! ([ True] means it is REAL, [False] means it is FAKE)
